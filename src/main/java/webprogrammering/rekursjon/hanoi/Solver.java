@@ -14,16 +14,12 @@ public class Solver {
     for(int i = 0; i < n; i++) {
         start.push(i);
     }
-
     flyttListe = new ArrayList<>();
-
     stackRekursjon(n, start, slutt, midt, 0, 2, 1);
         for(Flytt f:flyttListe) {
-        System.out.println("Flytt ring " + f.ring + " fra stav " + f.fra + " til stav " + f.til);
     }
 
 }
-
      void stackRekursjon(int n, Stack<Integer> start, Stack<Integer> slutt, Stack<Integer> midt,
                                int startC, int sluttC, int midtC) {
         if(n == 1) {
