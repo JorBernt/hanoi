@@ -40,7 +40,6 @@ const startAnimering = (instruksjoner, l) => {
 
     $("#ring"+instruksjoner[l].ring).animate({left: (staver[instruksjoner[l].til]+(instruksjoner[l].ring*5))+"px",
         top: (375-staverStack[instruksjoner[l].til])+"px"}, "slow", () => {
-        console.log(375-staverStack[instruksjoner[l].til])
         staverStack[instruksjoner[l].fra] -=ringSize;
         staverStack[instruksjoner[l].til] +=ringSize;
         startAnimering(instruksjoner, l+1)
