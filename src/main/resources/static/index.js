@@ -8,7 +8,8 @@ let ringer = []
 let staver = [50, 250, 450];
 let staverStack = [0, 0, 0];
 const ringSize = 25;
-
+let total = 0;
+let current = 0;
 const lagRinger = antallRinger => {
     for(let i = 0; i < antallRinger; i++) {
         staverStack[0]+=ringSize;
@@ -25,6 +26,7 @@ const lagRinger = antallRinger => {
     }
 
     $.get("/hentInstruksjoner?n="+antallRinger, instruksjoner => {
+        $("#output").html("Instruksjon 0 av " +instruksjoner.length)
             startAnimering(instruksjoner, 0)
     })
 
@@ -33,11 +35,17 @@ const lagRinger = antallRinger => {
 
 
 const startAnimering = (instruksjoner, l) => {
-    if(l==instruksjoner.length) return;
-    $("#ring"+instruksjoner[l].ring).animate({left: (staver[instruksjoner[l].til]+(instruksjoner[l].ring*5))+"px", top: (375-staverStack[instruksjoner[l].til])+"px"}, "slow", () => {
+    if(l==instruksjoner.length) {
+        $("#output").html("Ferdig!")
+        return;
+    }
+    $("#ring"+instruksjoner[l].ring).animate({left: (staver[instruksjoner[l].til]+(instruksjoner[l].ring*5))+"px",
+        top: (375-staverStack[instruksjoner[l].til])+"px"}, "slow", () => {
         console.log(375-staverStack[instruksjoner[l].til])
         staverStack[instruksjoner[l].fra] -=ringSize;
         staverStack[instruksjoner[l].til] +=ringSize;
+        total++
+        $("#output").html("Instruksjon "+total+" av " +instruksjoner.length)
 
         startAnimering(instruksjoner, l+1)
     })
