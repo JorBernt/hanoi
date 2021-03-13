@@ -5,18 +5,18 @@ $(()=>{
 $("#okButton").click(()=>{
     resett()
     antallRinger = $("#antallRinger").val()
-    if(antallRinger <= 0 || antallRinger >= 20) {
-        $("#feilInput").html("Du må skrive inn et tall over 0, og maks 20");
+    if(antallRinger <= 0 || antallRinger > 15) {
+        $("#feilInput").html("Du må skrive inn et tall over 0, og maks 15")
     }
-    lagRinger()
+    else lagRinger()
 })
-const farger = ["red", "blue", "green","yellow", "darkred", "darkblue", "lightblue", "darkgreen", "lightgreen", "pink"];
 
-let staver = [50, 250, 450];
-let staverStack = [0, 0, 0];
-const ringSize = 25;
-let total = 0;
-let current = 0;
+const farger = ["red", "blue", "green","yellow", "darkred", "darkblue", "lightblue", "darkgreen", "lightgreen", "pink"]
+const staver = [50, 250, 450]
+const staverStack = [0, 0, 0]
+const ringSize = 25
+let total = 0
+let current = 0
 
 const resett = () => {
     $("#feilInput").html("")
@@ -28,6 +28,7 @@ const resett = () => {
         $("#ring"+i).remove()
     }
 }
+
 const lagRinger = () => {
     for(let i = 0; i < antallRinger; i++) {
         staverStack[0]+=ringSize;
@@ -42,10 +43,7 @@ const lagRinger = () => {
     $.get("/hentInstruksjoner?n="+antallRinger, instruksjoner => {
             startAnimering(instruksjoner, 0)
     })
-
-
 }
-
 
 const startAnimering = (instruksjoner, l) => {
     if(l==instruksjoner.length) {
@@ -55,12 +53,10 @@ const startAnimering = (instruksjoner, l) => {
     $("#instruksjonOutput").html("Flytter ring fra stav "+(instruksjoner[l].fra+1)+" til stav " +(instruksjoner[l].til+1))
     total++
     $("#output").html("Instruksjon "+total+" av " +instruksjoner.length)
-
     $("#ring"+instruksjoner[l].ring).animate({left: (staver[instruksjoner[l].til]+(instruksjoner[l].ring*5))+"px",
         top: (375-staverStack[instruksjoner[l].til])+"px"}, (1000/$("#animFart").val()), () => {
-        staverStack[instruksjoner[l].fra] -=ringSize;
-        staverStack[instruksjoner[l].til] +=ringSize;
+        staverStack[instruksjoner[l].fra] -=ringSize
+        staverStack[instruksjoner[l].til] +=ringSize
         startAnimering(instruksjoner, l+1)
     })
-
 }
